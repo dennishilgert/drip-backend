@@ -281,11 +281,11 @@ const options: swaggerJsDoc.Options = {
   apis: ['src/routes/api/*.ts']
 }
 const swaggerSpec = swaggerJsDoc(options)
-router.use('/api-docs', (req: Request, res: Response, next: NextFunction) => {
-  fs.writeFile('swaggerSpec.json', JSON.stringify(swaggerSpec), (err) => {
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
-  })
+router.use('/api-docs-json', (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).type('application/json').send(JSON.stringify(swaggerSpec, null, 2))
   next()
-}, swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+})
 
 export default router
