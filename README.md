@@ -4,6 +4,7 @@
 ## Tech-stack
 
 - Node.js
+- Typescript
 - Express.js (API)
 - Socket.io (Socket)
 - SQLite3 (Database)
