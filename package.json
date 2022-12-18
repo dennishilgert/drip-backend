@@ -8,7 +8,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc --build tsconfig.json",
     "migrate": "npx sequelize db:migrate",
-    "clean": "rimraf ./build && mkdir ./build && rimraf ./uploads && mkdir ./uploads",
+    "clean": "rimraf ./build && mkdir ./build && rimraf ./uploads && mkdir ./uploads && rimraf ./swaggerSpec.json",
     "reset": "rimraf ./database.sqlite"
   },
   "author": "Dennis Hilgert",

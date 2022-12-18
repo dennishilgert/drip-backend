@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify'
 import { uniqueName } from '../../../common/util/nameUtil'
 import { DI_TYPES } from '../diTypes'
-import { BadIdentityDeletionDataError, BadIdentityUpdateDataError } from '../errors'
+import { BadIdentityDeletionDataError, BadIdentityUpdateDataError, IdentityNotFoundError } from '../errors'
 import { IIdentityRepo, IIdentityService } from '../interfaces'
 import { ICreateIdentityData, IIdentity, IUpdateIdentityData } from '../types'
 
@@ -40,6 +40,14 @@ class IdentityService implements IIdentityService {
 
   async getIdentityByName (name: string): Promise<IIdentity | null> {
     return this.identityRepo.getByName(name)
+  }
+
+  async validateIdentity (identityName: string): Promise<IIdentity> {
+    const identity: IIdentity | null = await this.getIdentityByName(identityName)
+    if (!identity) {
+      throw new IdentityNotFoundError('Provided identity does not exist')
+    }
+    return identity
   }
 
   /**

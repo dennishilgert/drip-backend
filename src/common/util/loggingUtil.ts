@@ -1,6 +1,6 @@
-import winston from "winston"
+import winston from 'winston'
 import _ from 'lodash'
-import { asString } from "../helpers/dataHelper"
+import { asString } from '../helpers/dataHelper'
 
 const formatters: winston.Logform.Format[] = (['production'].includes(asString(process.env.NODE_ENV)))
   ? [ // https://github.com/winstonjs/winston/issues/1338

@@ -1,5 +1,5 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, DataTypes, Sequelize } from 'sequelize'
-import { generateUuid } from '../../../common/util/uuidUtil'
+import { uniqueId } from '../../../common/helpers/uuidHelper'
 import { IIdentity } from '../types'
 
 class IdentityModel extends Model<InferAttributes<IdentityModel>, InferCreationAttributes<IdentityModel>> implements IIdentity {
@@ -29,7 +29,7 @@ export default function (sequelize: Sequelize) {
         type: DataTypes.STRING(36),
         allowNull: false,
         defaultValue: () => {
-          return generateUuid()
+          return uniqueId()
         }
       },
       name: {

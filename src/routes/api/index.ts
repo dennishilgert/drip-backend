@@ -6,7 +6,7 @@ import { NotFoundError, ServiceError, ServiceUnavailableError, ValidationError }
 import { isCelebrateError } from 'celebrate'
 import identitiesRouter from './identities'
 import nearbyRouter from './nearby'
-import sendingsRouter from './sendings'
+import transmissionsRouter from './transmissions'
 
 const router = Router()
 
@@ -46,7 +46,7 @@ router.use(timeout(asNumber(process.env.API_TIMEOUT)))
  */
 router.use('/identities', identitiesRouter)
 router.use('/nearby', nearbyRouter)
-router.use('/sendings', sendingsRouter)
+router.use('/transmissions', transmissionsRouter)
 
 /**
  * Add handler for requests to inexistent API endpoints
