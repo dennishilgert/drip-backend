@@ -1,3 +1,3 @@
 export interface IDatabaseModel {
-  id: number
+	id: number
 }

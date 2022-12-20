@@ -1,4 +1,5 @@
 # Drip backend
+
 ### A browser based cross platform application to share data
 
 ## Tech-stack
@@ -19,11 +20,13 @@
 ## Initial install
 
 #### Install the dependency packages
+
 ```bash
 npm install
 ```
 
 #### Start the backend server (this will reset and then migrate the database and start the server in dev mode)
+
 ```bash
 npm start
 ```

@@ -1,3 +1,3 @@
 export interface IDeleteIdentity {
-  uuid: string
+	uuid: string
 }

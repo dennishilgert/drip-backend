@@ -3,8 +3,8 @@
  * @param {string} fileName - The name of the file to extract the extension from.
  * @returns The file extension of the file name.
  */
-export function extractExtension (fileName: string): string | undefined {
-  return fileName.includes('.') ? fileName.split('.').pop() : fileName
+export function extractExtension(fileName: string): string | undefined {
+	return fileName.includes('.') ? fileName.split('.').pop() : fileName
 }
 
 /**
@@ -12,6 +12,6 @@ export function extractExtension (fileName: string): string | undefined {
  * @param {string} fileName - The name of the file to extract the name from.
  * @returns The first element of the array returned by the split method.
  */
-export function extractName (fileName: string): string {
-  return fileName.includes('.') ? fileName.split('.').shift()! : fileName
+export function extractName(fileName: string): string {
+	return fileName.includes('.') ? fileName.split('.').shift()! : fileName
 }

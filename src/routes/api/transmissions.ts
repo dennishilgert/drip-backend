@@ -57,18 +57,20 @@ const router = Router()
  *        $ref: '#/components/responses/InternalError'
  */
 router.post(
-  '/message',
-  celebrate({
-    [Segments.HEADERS]: Joi.object().keys({
-      authorization: Joi.string().required()
-    }).unknown(true),
-    [Segments.BODY]: Joi.object().keys({
-      toName: Joi.string().required(),
-      message: Joi.string().min(1).max(256).required()
-    })
-  }),
-  isAuthenticated,
-  asyncHandlerDecorator(transmissionsController.transmitMessage)
+	'/message',
+	celebrate({
+		[Segments.HEADERS]: Joi.object()
+			.keys({
+				authorization: Joi.string().required()
+			})
+			.unknown(true),
+		[Segments.BODY]: Joi.object().keys({
+			toName: Joi.string().required(),
+			message: Joi.string().min(1).max(256).required()
+		})
+	}),
+	isAuthenticated,
+	asyncHandlerDecorator(transmissionsController.transmitMessage)
 )
 
 /**
@@ -123,15 +125,17 @@ router.post(
  *        $ref: '#/components/responses/InternalError'
  */
 router.post(
-  '/file',
-  celebrate({
-    [Segments.HEADERS]: Joi.object().keys({
-      authorization: Joi.string().required()
-    }).unknown(true)
-  }),
-  formDataParser,
-  isAuthenticated,
-  asyncHandlerDecorator(transmissionsController.transmitFile)
+	'/file',
+	celebrate({
+		[Segments.HEADERS]: Joi.object()
+			.keys({
+				authorization: Joi.string().required()
+			})
+			.unknown(true)
+	}),
+	formDataParser,
+	isAuthenticated,
+	asyncHandlerDecorator(transmissionsController.transmitFile)
 )
 
 /**
@@ -170,14 +174,16 @@ router.post(
  *        $ref: '#/components/responses/InternalError'
  */
 router.get(
-  '/message/:uuid',
-  celebrate({
-    [Segments.HEADERS]: Joi.object().keys({
-      authorization: Joi.string().required()
-    }).unknown(true)
-  }),
-  isAuthenticated,
-  asyncHandlerDecorator(transmissionsController.retrieveMessage)
+	'/message/:uuid',
+	celebrate({
+		[Segments.HEADERS]: Joi.object()
+			.keys({
+				authorization: Joi.string().required()
+			})
+			.unknown(true)
+	}),
+	isAuthenticated,
+	asyncHandlerDecorator(transmissionsController.retrieveMessage)
 )
 
 /**
@@ -216,14 +222,16 @@ router.get(
  *        $ref: '#/components/responses/InternalError'
  */
 router.get(
-  '/file/:uuid',
-  celebrate({
-    [Segments.HEADERS]: Joi.object().keys({
-      authorization: Joi.string().required()
-    }).unknown(true)
-  }),
-  isAuthenticated,
-  asyncHandlerDecorator(transmissionsController.retrieveFile)
+	'/file/:uuid',
+	celebrate({
+		[Segments.HEADERS]: Joi.object()
+			.keys({
+				authorization: Joi.string().required()
+			})
+			.unknown(true)
+	}),
+	isAuthenticated,
+	asyncHandlerDecorator(transmissionsController.retrieveFile)
 )
 
 export default router

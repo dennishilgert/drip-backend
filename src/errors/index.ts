@@ -12,16 +12,16 @@ import TooManyRequestsError from './TooManyRequestsError'
 import RequestTimeoutError from './RequestTimeoutError'
 
 export {
-  ServiceError,
-  InternalError,
-  ServiceUnavailableError,
-  BadRequestError,
-  ConflictError,
-  UnauthorizedError,
-  ValidationError,
-  NotFoundError,
-  PreconditionFailedError,
-  ForbiddenError,
-  TooManyRequestsError,
-  RequestTimeoutError
+	ServiceError,
+	InternalError,
+	ServiceUnavailableError,
+	BadRequestError,
+	ConflictError,
+	UnauthorizedError,
+	ValidationError,
+	NotFoundError,
+	PreconditionFailedError,
+	ForbiddenError,
+	TooManyRequestsError,
+	RequestTimeoutError
 }

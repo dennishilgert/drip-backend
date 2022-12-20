@@ -1,6 +1,6 @@
 import { RequestType } from '../enums'
 
 export interface ITransformedSocketRequest {
-  requestType: RequestType
-  requestUuid: string
+	requestType: RequestType
+	requestUuid: string
 }

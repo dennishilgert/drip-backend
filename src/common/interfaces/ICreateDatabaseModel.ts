@@ -1,2 +1,1 @@
-export interface ICreateDatabaseModel {
-}
+export interface ICreateDatabaseModel {}

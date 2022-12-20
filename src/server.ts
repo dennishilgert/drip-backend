@@ -12,40 +12,51 @@ import router from './routes'
 
 const server: Application = express()
 const io: Server = new Server({
-  cors: {
-    origin: process.env.NODE_ENV === 'development' ? process.env.APP_DEV_URL : process.env.APP_URL
-  }
+	cors: {
+		origin:
+			process.env.NODE_ENV === 'development'
+				? process.env.APP_DEV_URL
+				: process.env.APP_URL
+	}
 })
 
-const socketService: SocketModule.interfaces.ISocketService = container.get(SocketModule.DI_TYPES.SocketService)
+const socketService: SocketModule.interfaces.ISocketService = container.get(
+	SocketModule.DI_TYPES.SocketService
+)
 
 server
-  // inject express included body-parser to handle requests with json body
-  .use(express.json())
+	// inject express included body-parser to handle requests with json body
+	.use(express.json())
 
-  // inject helmet to add headers that help to keep the application secure
-  .use(helmet())
+	// inject helmet to add headers that help to keep the application secure
+	.use(helmet())
 
-  // inject router to handle the request routes
-  .use('/', router)
+	// inject router to handle the request routes
+	.use('/', router)
 
-  // inject celebrate error handler middleware
-  .use(errors())
+	// inject celebrate error handler middleware
+	.use(errors())
 
 server.listen(process.env.API_PORT || 8081, () => {
-  logger.info(`API-Server is listening on port ${process.env.API_PORT || 8081}`)
-  logger.info(`API-Docs are available under http://localhost:${process.env.API_PORT || 8081}/api-docs`)
+	logger.info(`API-Server is listening on port ${process.env.API_PORT || 8081}`)
+	logger.info(
+		`API-Docs are available under http://localhost:${
+			process.env.API_PORT || 8081
+		}/api-docs`
+	)
 })
 
 io.on(SocketModule.enums.SocketEvent.CONNECT, (socket: Socket) => {
-  logger.debug('Socket-Client connected')
+	logger.debug('Socket-Client connected')
 
-  socket.on(SocketModule.enums.SocketEvent.IDENTIFY, (uuid: string) => {
-    socketService.registerClient(socket, uuid)
-  })
+	socket.on(SocketModule.enums.SocketEvent.IDENTIFY, (uuid: string) => {
+		socketService.registerClient(socket, uuid)
+	})
 })
 
 io.listen(asNumber(process.env.SOCKET_PORT || 8082))
-logger.info(`Socket-Server is listening on port ${process.env.SOCKET_PORT || 8082}`)
+logger.info(
+	`Socket-Server is listening on port ${process.env.SOCKET_PORT || 8082}`
+)
 
 export default server

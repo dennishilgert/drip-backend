@@ -1,3 +1,3 @@
 export interface ITransmission {
-  fromUuid: string
+	fromUuid: string
 }

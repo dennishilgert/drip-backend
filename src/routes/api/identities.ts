@@ -34,10 +34,7 @@ const router = Router()
  *      500:
  *        $ref: '#/components/responses/InternalError'
  */
-router.post(
-  '/',
-  asyncHandlerDecorator(identitiesController.createIdentity)
-)
+router.post('/', asyncHandlerDecorator(identitiesController.createIdentity))
 
 /**
  * @swagger
@@ -68,7 +65,7 @@ router.post(
  *                  type: string
  *                  description: Name of the matched identity
  *                  example: Anonymous Blobfish
- *                
+ *
  *      401:
  *        $ref: '#/components/responses/UnauthorizedError'
  *      404:
@@ -79,14 +76,16 @@ router.post(
  *        $ref: '#/components/responses/InternalError'
  */
 router.get(
-  '/:name',
-  celebrate({
-    [Segments.HEADERS]: Joi.object().keys({
-      authorization: Joi.string().required()
-    }).unknown(true)
-  }),
-  isAuthenticated,
-  asyncHandlerDecorator(identitiesController.lookupIdentity)
+	'/:name',
+	celebrate({
+		[Segments.HEADERS]: Joi.object()
+			.keys({
+				authorization: Joi.string().required()
+			})
+			.unknown(true)
+	}),
+	isAuthenticated,
+	asyncHandlerDecorator(identitiesController.lookupIdentity)
 )
 
 /**
@@ -149,20 +148,22 @@ router.get(
  *        $ref: '#/components/responses/InternalError'
  */
 router.patch(
-  '/geolocation',
-  celebrate({
-    [Segments.HEADERS]: Joi.object().keys({
-      authorization: Joi.string().required()
-    }).unknown(true),
-    [Segments.BODY]: Joi.object().keys({
-      geolocation: Joi.object().keys({
-        longitude: Joi.number().required(),
-        latitude: Joi.number().required()
-      })
-    })
-  }),
-  isAuthenticated,
-  asyncHandlerDecorator(identitiesController.updateLocation)
+	'/geolocation',
+	celebrate({
+		[Segments.HEADERS]: Joi.object()
+			.keys({
+				authorization: Joi.string().required()
+			})
+			.unknown(true),
+		[Segments.BODY]: Joi.object().keys({
+			geolocation: Joi.object().keys({
+				longitude: Joi.number().required(),
+				latitude: Joi.number().required()
+			})
+		})
+	}),
+	isAuthenticated,
+	asyncHandlerDecorator(identitiesController.updateLocation)
 )
 
 export default router
