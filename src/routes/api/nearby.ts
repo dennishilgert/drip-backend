@@ -46,16 +46,16 @@ const router = Router()
  *        $ref: '#/components/responses/InternalError'
  */
 router.get(
-	'/',
-	celebrate({
-		[Segments.HEADERS]: Joi.object()
-			.keys({
-				authorization: Joi.string().required()
-			})
-			.unknown(true)
-	}),
-	isAuthenticated,
-	asyncHandlerDecorator(nearbyController.getNearbyIp)
+  '/',
+  celebrate({
+    [Segments.HEADERS]: Joi.object()
+      .keys({
+        authorization: Joi.string().required()
+      })
+      .unknown(true)
+  }),
+  isAuthenticated,
+  asyncHandlerDecorator(nearbyController.getNearbyIp)
 )
 
 /**
@@ -100,16 +100,16 @@ router.get(
  *        $ref: '#/components/responses/InternalError'
  */
 router.get(
-	'/geolocation',
-	celebrate({
-		[Segments.HEADERS]: Joi.object()
-			.keys({
-				authorization: Joi.string().required()
-			})
-			.unknown(true)
-	}),
-	isAuthenticated,
-	asyncHandlerDecorator(nearbyController.getNearbyGeolocation)
+  '/geolocation',
+  celebrate({
+    [Segments.HEADERS]: Joi.object()
+      .keys({
+        authorization: Joi.string().required()
+      })
+      .unknown(true)
+  }),
+  isAuthenticated,
+  asyncHandlerDecorator(nearbyController.getNearbyGeolocation)
 )
 
 export default router

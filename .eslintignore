@@ -1,3 +1,4 @@
+# Ignored artifacts:
 node_modules
 build
 uploads

@@ -7,8 +7,8 @@
  * @returns A string value
  */
 export function asString(value: any, trimmed: boolean = false): string {
-	const str = value === undefined || value === null ? '' : String(value)
-	return trimmed ? str.trim() : str
+  const str = value === undefined || value === null ? '' : String(value)
+  return trimmed ? str.trim() : str
 }
 
 /**
@@ -18,7 +18,7 @@ export function asString(value: any, trimmed: boolean = false): string {
  * @returns A number value
  */
 export function asNumber(value: any): number {
-	return value === null || value === '' ? NaN : Number(value)
+  return value === null || value === '' ? NaN : Number(value)
 }
 
 /**
@@ -28,5 +28,5 @@ export function asNumber(value: any): number {
  * @returns A boolean value
  */
 export function asBoolean(value: any): boolean {
-	return value === 1 || value === '1' || value === true || value === 'true'
+  return value === 1 || value === '1' || value === true || value === 'true'
 }

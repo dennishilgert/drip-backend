@@ -1,4 +1,4 @@
 export interface ITransformedMessageTransmission {
-	uuid: string
-	fromName: string
+  uuid: string
+  fromName: string
 }

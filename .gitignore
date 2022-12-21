@@ -136,4 +136,5 @@ build
 .DS_Store
 
 # Uploaded Files
-uploads
+uploads/*
+database.sqlite

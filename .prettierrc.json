@@ -1,9 +1,11 @@
 {
-	"trailingComma": "none",
-	"semi": false,
-	"singleQuote": true,
-	"quoteProps": "as-needed",
-	"bracketSpacing": true,
-	"bracketSameLine": false,
-	"arrowParens": "always"
+  "semi": false,
+  "singleQuote": true,
+  "quoteProps": "as-needed",
+  "trailingComma": "none",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "embeddedLanguageFormatting": "auto",
+  "singleAttributePerLine": false
 }
