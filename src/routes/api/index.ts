@@ -58,7 +58,7 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 /**
  * Add handler for API errors
  */
-router.use((err: any, req: Request, res: Response) => {
+router.use((err: any, req: Request, res: Response, next: NextFunction) => {
   let error = Object.assign({}, err)
   // saving the original error stack trace to not overwrite it when translating an unknown error to a generic one
   const originalStackTrace = err.stack
