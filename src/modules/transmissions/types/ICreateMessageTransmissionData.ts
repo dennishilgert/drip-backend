@@ -1,5 +1,5 @@
 export interface ICreateMessageTransmissionData {
-	fromUuid: string
-	toUuid: string
-	message: string
+  fromUuid: string
+  toUuid: string
+  message: string
 }

@@ -1,3 +1,3 @@
 export interface ITransmissionConfirmation {
-	requestUuid: string
+  requestUuid: string
 }

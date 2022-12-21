@@ -6,9 +6,9 @@
  * @param {boolean} [trimmed=false] - boolean = false
  * @returns A string value
  */
-export function asString(value: any, trimmed: boolean = false): string {
-	const str = value === undefined || value === null ? '' : String(value)
-	return trimmed ? str.trim() : str
+export function asString (value: any, trimmed: boolean = false): string {
+  const str = value === undefined || value === null ? '' : String(value)
+  return trimmed ? str.trim() : str
 }
 
 /**
@@ -17,8 +17,8 @@ export function asString(value: any, trimmed: boolean = false): string {
  * @param {any} value - any
  * @returns A number value
  */
-export function asNumber(value: any): number {
-	return value === null || value === '' ? NaN : Number(value)
+export function asNumber (value: any): number {
+  return value === null || value === '' ? NaN : Number(value)
 }
 
 /**
@@ -27,6 +27,6 @@ export function asNumber(value: any): number {
  * @param {any} value - any
  * @returns A boolean value
  */
-export function asBoolean(value: any): boolean {
-	return value === 1 || value === '1' || value === true || value === 'true'
+export function asBoolean (value: any): boolean {
+  return value === 1 || value === '1' || value === true || value === 'true'
 }
