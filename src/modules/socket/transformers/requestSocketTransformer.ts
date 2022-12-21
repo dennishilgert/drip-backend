@@ -5,15 +5,17 @@ import _ from 'lodash'
 class RequestSocketTransformer extends BaseTransformer {
   private readonly socketRequest: ISocketRequest
 
-  constructor (socketRequest: ISocketRequest) {
+  constructor(socketRequest: ISocketRequest) {
     super()
     this.socketRequest = socketRequest
   }
 
-  transform (): ITransformedSocketRequest {
+  transform(): ITransformedSocketRequest {
     const omitProperties: Array<string> = ['fromUuid', 'toUuid']
-    const transformedSocketRequest: ITransformedSocketRequest =
-      _.omit(this.socketRequest, omitProperties) as ITransformedSocketRequest
+    const transformedSocketRequest: ITransformedSocketRequest = _.omit(
+      this.socketRequest,
+      omitProperties
+    ) as ITransformedSocketRequest
     return transformedSocketRequest
   }
 }

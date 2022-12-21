@@ -5,7 +5,8 @@ import { IFileTransmission } from '../types'
 
 class FileTransmissionModel
   extends Model<InferAttributes<FileTransmissionModel>, InferCreationAttributes<FileTransmissionModel>>
-  implements IFileTransmission {
+  implements IFileTransmission
+{
   declare id: CreationOptional<number>
   declare uuid: string
   declare requestUuid: CreationOptional<string>

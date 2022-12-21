@@ -11,7 +11,7 @@ import { ValidationError } from '../../errors'
 import { deleteFile } from '../../common/util/fileUtil'
 import { isSupported } from '../../common/util/mimeTypeUtil'
 
-function formDataParser (req: Request, res: Response, next: NextFunction): void {
+function formDataParser(req: Request, res: Response, next: NextFunction): void {
   const uploadedFiles: Map<string, IUploadedFile> = new Map<string, IUploadedFile>()
   const busboyParser: busboy.Busboy = busboy({
     headers: req.headers,

@@ -7,9 +7,9 @@ import IdentityApiTransformer from '../../../routes/transformers/identityApiTran
 class NearbyService implements INearbyService {
   private readonly identityRepo: IdentityModule.interfaces.IIdentityRepo
 
-  public constructor (
+  public constructor(
     @inject(IdentityModule.DI_TYPES.IdentityRepo)
-      identityRepo: IdentityModule.interfaces.IIdentityRepo
+    identityRepo: IdentityModule.interfaces.IIdentityRepo
   ) {
     this.identityRepo = identityRepo
   }
@@ -21,7 +21,7 @@ class NearbyService implements INearbyService {
    * @param {string} ip - The IP address of the identity you want to find nearby identities for
    * @returns An array of identities that are on the same network as the user
    */
-  async getNearbyIp (excludeUuid: string, ip: string): Promise<IdentityModule.types.ITransformedIdentity[]> {
+  async getNearbyIp(excludeUuid: string, ip: string): Promise<IdentityModule.types.ITransformedIdentity[]> {
     const nearbyIdentities: IdentityModule.types.IIdentity[] = await this.identityRepo.getByIp(ip)
     const transformedNearbyIdentities: IdentityModule.types.ITransformedIdentity[] = []
 
@@ -29,8 +29,9 @@ class NearbyService implements INearbyService {
     nearbyIdentities.forEach((identity: IdentityModule.types.IIdentity) => {
       if (identity.uuid === excludeUuid) return
 
-      const transformedIdentity: IdentityModule.types.ITransformedIdentity =
-        new IdentityApiTransformer(identity).transform()
+      const transformedIdentity: IdentityModule.types.ITransformedIdentity = new IdentityApiTransformer(
+        identity
+      ).transform()
       transformedIdentity.distance = 'Same network'
       transformedNearbyIdentities.push(transformedIdentity)
     })
@@ -45,7 +46,7 @@ class NearbyService implements INearbyService {
    * @param {number} latitude - The latitude of the location you want to search near
    * @returns An array of transformed identities
    */
-  async getNearbyGeolocation (
+  async getNearbyGeolocation(
     excludeUuid: string,
     longitude: number,
     latitude: number
@@ -61,8 +62,9 @@ class NearbyService implements INearbyService {
 
       // only return identities which are not more than 5 km away
       if (crow <= 5) {
-        const transformedIdentity: IdentityModule.types.ITransformedIdentity =
-          new IdentityApiTransformer(identity).transform()
+        const transformedIdentity: IdentityModule.types.ITransformedIdentity = new IdentityApiTransformer(
+          identity
+        ).transform()
         transformedIdentity.distance = crow.toFixed(2) + ' km'
         transformedLocationIdentities.push(transformedIdentity)
       }
@@ -70,7 +72,7 @@ class NearbyService implements INearbyService {
     return transformedLocationIdentities
   }
 
-  calcCrow (longitude1: number, latitude1: number, longitude2: number, latitude2: number) {
+  calcCrow(longitude1: number, latitude1: number, longitude2: number, latitude2: number) {
     const R = 6371 // km
     const dLat = this.toRad(latitude2 - latitude1)
     const dLon = this.toRad(longitude2 - longitude1)
@@ -85,7 +87,7 @@ class NearbyService implements INearbyService {
     return d
   }
 
-  toRad (value: number) {
+  toRad(value: number) {
     return (value * Math.PI) / 180
   }
 }

@@ -10,14 +10,14 @@ class SocketRequest {
   readonly fromUuid: string
   readonly toUuid: string
 
-  constructor (socketClient: ISocketClient, request: ISocketRequest) {
+  constructor(socketClient: ISocketClient, request: ISocketRequest) {
     this.socketClient = socketClient
     this.requestUuid = request.requestUuid
     this.fromUuid = request.fromUuid
     this.toUuid = request.toUuid
   }
 
-  async listenForResponse (): Promise<ISocketResponse> {
+  async listenForResponse(): Promise<ISocketResponse> {
     return new Promise<ISocketResponse>(
       (resolve: (socketResponse: ISocketResponse) => void, reject: (error: Error) => void) => {
         const listener: (...args: any[]) => void = (data: string) => {
@@ -38,7 +38,7 @@ class SocketRequest {
     )
   }
 
-  private closeRequest (listener: (...args: any[]) => void): void {
+  private closeRequest(listener: (...args: any[]) => void): void {
     this.socketClient.removeListener(SocketEvent.RESPONSE, listener)
     this.socketClient.closeRequest(this.requestUuid)
   }

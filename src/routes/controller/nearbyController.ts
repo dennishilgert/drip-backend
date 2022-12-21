@@ -7,7 +7,7 @@ import * as NearbyModule from '../../modules/nearby'
 
 const nearbyService: NearbyModule.interfaces.INearbyService = container.get(NearbyModule.DI_TYPES.NearbyService)
 
-async function getNearbyIp (req: Request, res: Response) {
+async function getNearbyIp(req: Request, res: Response) {
   const ip: string = asString(req.headers['x-forwarded-for'] || req.socket.remoteAddress)
   const fromIdentity: IdentityModule.types.IIdentity = req.fromIdentity as IdentityModule.types.IIdentity
 
@@ -24,7 +24,7 @@ async function getNearbyIp (req: Request, res: Response) {
     })
 }
 
-async function getNearbyGeolocation (req: Request, res: Response, next: NextFunction) {
+async function getNearbyGeolocation(req: Request, res: Response, next: NextFunction) {
   const fromIdentity: IdentityModule.types.IIdentity = req.fromIdentity as IdentityModule.types.IIdentity
   if (!fromIdentity.longitude && !fromIdentity.latitude) {
     next(new BadRequestError('Provided identity does not have a geolocation'))
@@ -44,9 +44,7 @@ async function getNearbyGeolocation (req: Request, res: Response, next: NextFunc
       logger.error('Nearby geolocation identities retrieval error', {
         error
       })
-      throw new InternalError(
-        'Failed to retrieve nearby geolocation identities'
-      )
+      throw new InternalError('Failed to retrieve nearby geolocation identities')
     })
 }
 

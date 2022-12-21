@@ -1,9 +1,4 @@
-import {
-  uniqueNamesGenerator,
-  Config,
-  adjectives,
-  animals
-} from 'unique-names-generator'
+import { uniqueNamesGenerator, Config, adjectives, animals } from 'unique-names-generator'
 
 const customConfig: Config = {
   dictionaries: [adjectives, animals],
@@ -12,6 +7,6 @@ const customConfig: Config = {
   style: 'capital'
 }
 
-export function uniqueName (): string {
+export function uniqueName(): string {
   return uniqueNamesGenerator(customConfig)
 }

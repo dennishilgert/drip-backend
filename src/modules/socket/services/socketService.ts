@@ -10,14 +10,14 @@ class SocketService implements ISocketService {
   private readonly identityService: IdentityModule.interfaces.IIdentityService
   private clients: Map<string, ISocketClient>
 
-  constructor (
+  constructor(
     @inject(IdentityModule.DI_TYPES.IdentityService) identityService: IdentityModule.interfaces.IIdentityService
   ) {
     this.identityService = identityService
     this.clients = new Map()
   }
 
-  async registerClient (socket: Socket, uuid: string): Promise<void> {
+  async registerClient(socket: Socket, uuid: string): Promise<void> {
     const identity: IdentityModule.types.IIdentity | null = await this.identityService.getIdentityByUuid(uuid)
     if (!identity) {
       socket.disconnect(true)
@@ -28,11 +28,11 @@ class SocketService implements ISocketService {
     this.broadcastEvent(SocketEvent.UPDATE_NEARBY_IP, null, [uuid])
   }
 
-  getClient (uuid: string): ISocketClient | undefined {
+  getClient(uuid: string): ISocketClient | undefined {
     return this.clients.get(uuid)
   }
 
-  async destroyClient (uuid: string): Promise<void> {
+  async destroyClient(uuid: string): Promise<void> {
     this.clients.delete(uuid)
     logger.debug('Socket-Client destroyed')
 
@@ -44,13 +44,13 @@ class SocketService implements ISocketService {
     this.broadcastEvent(SocketEvent.UPDATE_NEARBY_GEOLOCATION)
   }
 
-  emitEvent (uuid: string, event: string, data?: string): boolean {
+  emitEvent(uuid: string, event: string, data?: string): boolean {
     const socketClient: ISocketClient | undefined = this.getClient(uuid)
     if (!socketClient) return false
     return socketClient.emitEvent(event, data)
   }
 
-  broadcastEvent (event: string, data?: string | null, excludes?: string[]): void {
+  broadcastEvent(event: string, data?: string | null, excludes?: string[]): void {
     this.clients.forEach((socketClient: ISocketClient) => {
       socketClient.emitEvent(event, data, excludes)
     })

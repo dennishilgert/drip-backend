@@ -14,12 +14,7 @@ class ServiceError extends Error {
    * @param {number|string} [errorCode=null] Custom error code (e.g. some 3rd party error codes)
    * @param {Array<any>} [errors=[]] Additional errors (e.g. validation one)
    */
-  constructor (
-    message: string,
-    status: number = 500,
-    errorCode: any = null,
-    errors: Array<any> = []
-  ) {
+  constructor(message: string, status: number = 500, errorCode: any = null, errors: Array<any> = []) {
     super(message)
     this.name = this.constructor.name
     this.message = message
@@ -28,7 +23,7 @@ class ServiceError extends Error {
     this.errors = errors
   }
 
-  toJSON () {
+  toJSON() {
     return {
       name: this.name,
       status: this.status,
@@ -39,7 +34,7 @@ class ServiceError extends Error {
     }
   }
 
-  toString () {
+  toString() {
     return `${this.code} - ${this.message}`
   }
 }

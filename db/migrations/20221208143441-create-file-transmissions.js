@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     return queryInterface.createTable('fileTransmissions', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
@@ -47,7 +47,7 @@ module.exports = {
     })
   },
 
-  async down (queryInterface) {
+  async down(queryInterface) {
     return queryInterface.dropTable('fileTransmissions')
   }
 }

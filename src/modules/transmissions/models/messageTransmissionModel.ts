@@ -5,7 +5,8 @@ import { IMessageTransmission } from '../types'
 
 class MessageTransmissionModel
   extends Model<InferAttributes<MessageTransmissionModel>, InferCreationAttributes<MessageTransmissionModel>>
-  implements IMessageTransmission {
+  implements IMessageTransmission
+{
   declare id: CreationOptional<number>
   declare uuid: string
   declare requestUuid: CreationOptional<string>

@@ -1,10 +1,20 @@
 /* eslint-disable no-use-before-define */
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute, DataTypes, Sequelize } from 'sequelize'
+import {
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+  NonAttribute,
+  DataTypes,
+  Sequelize
+} from 'sequelize'
 import { uniqueId } from '../../../common/helpers/uuidHelper'
 import { IIdentity } from '../types'
 
-class IdentityModel extends Model<InferAttributes<IdentityModel>, InferCreationAttributes<IdentityModel>>
-  implements IIdentity {
+class IdentityModel
+  extends Model<InferAttributes<IdentityModel>, InferCreationAttributes<IdentityModel>>
+  implements IIdentity
+{
   declare id: CreationOptional<number>
   declare uuid: string
   declare name: string
@@ -15,7 +25,7 @@ class IdentityModel extends Model<InferAttributes<IdentityModel>, InferCreationA
   declare createdAt: CreationOptional<Date>
   declare updatedAt: CreationOptional<Date>
 
-  get displayName (): NonAttribute<string> {
+  get displayName(): NonAttribute<string> {
     return this.name
   }
 }

@@ -18,8 +18,7 @@ const swaggerDefinition: swaggerJsDoc.OAS3Definition = {
   info: {
     title: 'API Documentation',
     version: '1.0.0',
-    description:
-      'This is the documentation of the REST API for the Drip application'
+    description: 'This is the documentation of the REST API for the Drip application'
   },
   servers: [
     {
@@ -75,8 +74,7 @@ const swaggerDefinition: swaggerJsDoc.OAS3Definition = {
                 stack: {
                   type: 'string',
                   description: 'Stack of the error',
-                  example:
-                    'BadRequestError Provided identity does not have a geolocation ...'
+                  example: 'BadRequestError Provided identity does not have a geolocation ...'
                 },
                 message: {
                   type: 'string',
@@ -113,8 +111,7 @@ const swaggerDefinition: swaggerJsDoc.OAS3Definition = {
                 stack: {
                   type: 'string',
                   description: 'Stack of the error',
-                  example:
-                    'UnauthorizedError Provided auth-token is invalid ...'
+                  example: 'UnauthorizedError Provided auth-token is invalid ...'
                 },
                 message: {
                   type: 'string',
@@ -151,8 +148,7 @@ const swaggerDefinition: swaggerJsDoc.OAS3Definition = {
                 stack: {
                   type: 'string',
                   description: 'Stack of the error',
-                  example:
-                    'IdentityNotFoundError Requested identity does not exist ...'
+                  example: 'IdentityNotFoundError Requested identity does not exist ...'
                 },
                 message: {
                   type: 'string',
@@ -189,8 +185,7 @@ const swaggerDefinition: swaggerJsDoc.OAS3Definition = {
                 stack: {
                   type: 'string',
                   description: 'Stack of the error',
-                  example:
-                    'IdentityNotConnectedError Target Identity is not connected ...'
+                  example: 'IdentityNotConnectedError Target Identity is not connected ...'
                 },
                 message: {
                   type: 'string',
@@ -288,10 +283,7 @@ const swaggerSpec = swaggerJsDoc(options)
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 router.use('/api-docs-json', (req: Request, res: Response, next: NextFunction) => {
-  res
-    .status(200)
-    .type('application/json')
-    .send(JSON.stringify(swaggerSpec, null, 2))
+  res.status(200).type('application/json').send(JSON.stringify(swaggerSpec, null, 2))
   next()
 })
 

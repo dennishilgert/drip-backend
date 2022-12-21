@@ -26,7 +26,7 @@ class TransmissionService implements ITransmissionService {
   private readonly fileTransmissionRepo: IFileTransmissionRepo
   private readonly socketService: SocketModule.interfaces.ISocketService
 
-  public constructor (
+  public constructor(
     @inject(DI_TYPES.MessageTransmissionRepo) messageTransmissionRepo: IMessageTransmissionRepo,
     @inject(DI_TYPES.FileTransmissionRepo) fileTransmissionRepo: IFileTransmissionRepo,
     @inject(SocketModule.DI_TYPES.SocketService) socketService: SocketModule.interfaces.ISocketService
@@ -36,7 +36,7 @@ class TransmissionService implements ITransmissionService {
     this.socketService = socketService
   }
 
-  async cacheMessage (fromUuid: string, toUuid: string, message: string): Promise<IMessageTransmission> {
+  async cacheMessage(fromUuid: string, toUuid: string, message: string): Promise<IMessageTransmission> {
     const messageTransmissionData: ICreateMessageTransmissionData = {
       fromUuid,
       toUuid,
@@ -45,7 +45,7 @@ class TransmissionService implements ITransmissionService {
     return this.messageTransmissionRepo.create(messageTransmissionData)
   }
 
-  async cacheFile (fromUuid: string, toUuid: string, request: Request): Promise<IFileTransmission> {
+  async cacheFile(fromUuid: string, toUuid: string, request: Request): Promise<IFileTransmission> {
     const uploadedFiles: Map<string, IUploadedFile> | undefined = request.files
     if (!uploadedFiles || uploadedFiles.size < 1) {
       throw new NoFileAttachedError('Request has no attached file')
@@ -65,21 +65,21 @@ class TransmissionService implements ITransmissionService {
     return this.fileTransmissionRepo.create(fileTransmissionData)
   }
 
-  sendRequest (toUuid: string, transmissionRequest: ITransmissionRequest): void {
+  sendRequest(toUuid: string, transmissionRequest: ITransmissionRequest): void {
     const socketClient: SocketModule.interfaces.ISocketClient | undefined = this.socketService.getClient(toUuid)
     if (!socketClient) {
       throw new IdentityModule.errors.IdentityNotConnectedError('Target Identity is not connected')
     }
 
     // Deleting transmissionUuid from the request
-    const transformedTransmissionRequest: ITransformedTransmissionRequest =
-      new TransmissionRequestTransformer(transmissionRequest).transform()
+    const transformedTransmissionRequest: ITransformedTransmissionRequest = new TransmissionRequestTransformer(
+      transmissionRequest
+    ).transform()
 
     socketClient
       .openRequest(transformedTransmissionRequest)
       .then(async (socketResponse: SocketModule.types.ISocketResponse) => {
-        const transmissionResponse: ITransmissionResponse =
-          socketResponse as ITransmissionResponse
+        const transmissionResponse: ITransmissionResponse = socketResponse as ITransmissionResponse
         this.socketService.emitEvent(
           transmissionRequest.fromUuid,
           SocketModule.enums.SocketEvent.RESPONSE,
@@ -87,45 +87,45 @@ class TransmissionService implements ITransmissionService {
         )
 
         switch (transmissionRequest.requestType) {
-        case SocketModule.enums.RequestType.MESSAGE_TRANSMISSION: {
-          if (transmissionResponse.accepted) {
-            const transformedMessageTransmission: ITransformedMessageTransmission = {
-              uuid: transmissionRequest.transmissionUuid,
-              fromName: transmissionRequest.fromName
+          case SocketModule.enums.RequestType.MESSAGE_TRANSMISSION: {
+            if (transmissionResponse.accepted) {
+              const transformedMessageTransmission: ITransformedMessageTransmission = {
+                uuid: transmissionRequest.transmissionUuid,
+                fromName: transmissionRequest.fromName
+              }
+              socketClient.emitEvent(
+                SocketModule.enums.SocketEvent.MESSAGE_TRANSMISSION,
+                JSON.stringify(transformedMessageTransmission)
+              )
+              return
             }
-            socketClient.emitEvent(
-              SocketModule.enums.SocketEvent.MESSAGE_TRANSMISSION,
-              JSON.stringify(transformedMessageTransmission)
-            )
-            return
-          }
 
-          const affectedRows: number = await this.deleteMessageTransmission(transmissionRequest.requestUuid)
-          if (affectedRows < 1) {
-            throw new TransmissionDeletionError('Failed to delete message transmission')
-          }
-          break
-        }
-        case SocketModule.enums.RequestType.FILE_TRANSMISSION: {
-          if (transmissionResponse.accepted) {
-            const transformedFileTransmission: ITransformedFileTransmission = {
-              uuid: transmissionRequest.transmissionUuid,
-              fromName: transmissionRequest.fromName,
-              fileOriginalName: transmissionRequest.fileOriginalName!,
-              fileMimeType: transmissionRequest.fileMimeType!
+            const affectedRows: number = await this.deleteMessageTransmission(transmissionRequest.requestUuid)
+            if (affectedRows < 1) {
+              throw new TransmissionDeletionError('Failed to delete message transmission')
             }
-            socketClient.emitEvent(
-              SocketModule.enums.SocketEvent.FILE_TRANSMISSION,
-              JSON.stringify(transformedFileTransmission)
-            )
-            return
+            break
           }
-          const affectedRows: number = await this.deleteFileTransmission(transmissionRequest.requestUuid)
-          if (affectedRows < 1) {
-            throw new TransmissionDeletionError('Failed to delete file transmission')
+          case SocketModule.enums.RequestType.FILE_TRANSMISSION: {
+            if (transmissionResponse.accepted) {
+              const transformedFileTransmission: ITransformedFileTransmission = {
+                uuid: transmissionRequest.transmissionUuid,
+                fromName: transmissionRequest.fromName,
+                fileOriginalName: transmissionRequest.fileOriginalName!,
+                fileMimeType: transmissionRequest.fileMimeType!
+              }
+              socketClient.emitEvent(
+                SocketModule.enums.SocketEvent.FILE_TRANSMISSION,
+                JSON.stringify(transformedFileTransmission)
+              )
+              return
+            }
+            const affectedRows: number = await this.deleteFileTransmission(transmissionRequest.requestUuid)
+            if (affectedRows < 1) {
+              throw new TransmissionDeletionError('Failed to delete file transmission')
+            }
+            break
           }
-          break
-        }
         }
       })
       .catch(async (error: Error) => {
@@ -145,20 +145,20 @@ class TransmissionService implements ITransmissionService {
           )
 
           switch (transmissionRequest.requestType) {
-          case SocketModule.enums.RequestType.MESSAGE_TRANSMISSION: {
-            const affectedRows: number = await this.deleteMessageTransmission(transmissionRequest.requestUuid)
-            if (affectedRows < 1) {
-              throw new TransmissionDeletionError('Failed to delete message transmission')
+            case SocketModule.enums.RequestType.MESSAGE_TRANSMISSION: {
+              const affectedRows: number = await this.deleteMessageTransmission(transmissionRequest.requestUuid)
+              if (affectedRows < 1) {
+                throw new TransmissionDeletionError('Failed to delete message transmission')
+              }
+              break
             }
-            break
-          }
-          case SocketModule.enums.RequestType.FILE_TRANSMISSION: {
-            const affectedRows: number = await this.deleteFileTransmission(transmissionRequest.requestUuid)
-            if (affectedRows < 1) {
-              throw new TransmissionDeletionError('Failed to delete file transmission')
+            case SocketModule.enums.RequestType.FILE_TRANSMISSION: {
+              const affectedRows: number = await this.deleteFileTransmission(transmissionRequest.requestUuid)
+              if (affectedRows < 1) {
+                throw new TransmissionDeletionError('Failed to delete file transmission')
+              }
+              break
             }
-            break
-          }
           }
         } else {
           throw error
@@ -166,19 +166,19 @@ class TransmissionService implements ITransmissionService {
       })
   }
 
-  async getMessageTransmissionByUuid (uuid: string): Promise<IMessageTransmission | null> {
+  async getMessageTransmissionByUuid(uuid: string): Promise<IMessageTransmission | null> {
     return this.messageTransmissionRepo.getByUuid(uuid)
   }
 
-  async getFileTransmissionByUuid (uuid: string): Promise<IFileTransmission | null> {
+  async getFileTransmissionByUuid(uuid: string): Promise<IFileTransmission | null> {
     return this.fileTransmissionRepo.getByUuid(uuid)
   }
 
-  async cleanMessageTransmissions (identityUuid: string): Promise<void> {
+  async cleanMessageTransmissions(identityUuid: string): Promise<void> {
     this.messageTransmissionRepo.deleteByToUuid(identityUuid)
   }
 
-  async cleanFileTransmissions (identityUuid: string): Promise<void> {
+  async cleanFileTransmissions(identityUuid: string): Promise<void> {
     const fileTransmissions: IFileTransmission[] = await this.fileTransmissionRepo.getByToUuid(identityUuid)
     fileTransmissions.forEach((fileTransmission: IFileTransmission) => {
       deleteFile(fileTransmission.filePath)
@@ -194,11 +194,11 @@ class TransmissionService implements ITransmissionService {
     })
   }
 
-  async deleteMessageTransmission (requestUuid: string): Promise<number> {
+  async deleteMessageTransmission(requestUuid: string): Promise<number> {
     return this.messageTransmissionRepo.deleteByRequestUuid(requestUuid)
   }
 
-  async deleteFileTransmission (requestUuid: string): Promise<number> {
+  async deleteFileTransmission(requestUuid: string): Promise<number> {
     const fileTransmission: IFileTransmission | null = await this.fileTransmissionRepo.getByRequestUuid(requestUuid)
     if (!fileTransmission) return 0
     return deleteFile(fileTransmission.filePath)

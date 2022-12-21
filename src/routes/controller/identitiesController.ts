@@ -4,10 +4,11 @@ import { asString } from '../../common/helpers/dataHelper'
 import { container } from '../../modules/dependencyContainer'
 import * as IdentityModule from '../../modules/identity'
 
-const identityService: IdentityModule.interfaces.IIdentityService =
-  container.get(IdentityModule.DI_TYPES.IdentityService)
+const identityService: IdentityModule.interfaces.IIdentityService = container.get(
+  IdentityModule.DI_TYPES.IdentityService
+)
 
-async function createIdentity (req: Request, res: Response) {
+async function createIdentity(req: Request, res: Response) {
   const ip: string = asString(req.headers['x-forwarded-for'] || req.socket.remoteAddress)
   const creationData: IdentityModule.types.ICreateIdentityData = {
     ip
@@ -26,7 +27,7 @@ async function createIdentity (req: Request, res: Response) {
     })
 }
 
-async function lookupIdentity (req: Request, res: Response, next: NextFunction) {
+async function lookupIdentity(req: Request, res: Response, next: NextFunction) {
   const name: string = req.params.name
 
   return identityService
@@ -49,7 +50,7 @@ async function lookupIdentity (req: Request, res: Response, next: NextFunction) 
     })
 }
 
-async function updateLocation (req: Request, res: Response, next: NextFunction) {
+async function updateLocation(req: Request, res: Response, next: NextFunction) {
   const fromIdentity: IdentityModule.types.IIdentity = req.fromIdentity as IdentityModule.types.IIdentity
 
   const geolocation: { longitude: number; latitude: number } = req.body.geolocation
