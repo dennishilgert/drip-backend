@@ -5,6 +5,7 @@
   "main": "build/server.js",
   "scripts": {
     "start": "npm run reset && npm run migrate && npm run dev",
+    "start:prod": "npm run clean && npm run build && node build/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc --build tsconfig.json",
     "migrate": "npx sequelize db:migrate",
