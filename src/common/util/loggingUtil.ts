@@ -1,13 +1,18 @@
-import winston from "winston"
+import winston from 'winston'
 import _ from 'lodash'
-import { asString } from "../helpers/dataHelper"
+import { asString } from '../helpers/dataHelper'
 
-const formatters: winston.Logform.Format[] = (['production'].includes(asString(process.env.NODE_ENV)))
-  ? [ // https://github.com/winstonjs/winston/issues/1338
+const formatters: winston.Logform.Format[] = ['production'].includes(asString(process.env.NODE_ENV))
+  ? [
+      // https://github.com/winstonjs/winston/issues/1338
       winston.format.printf((info) => {
         return JSON.stringify(info, (key: string, value: object) => {
           if (value instanceof Error) {
-            return { name: value.name, message: value.message, stack: value.stack }
+            return {
+              name: value.name,
+              message: value.message,
+              stack: value.stack
+            }
           }
           return value
         })
@@ -30,13 +35,13 @@ const transports: winston.transports.ConsoleTransportInstance[] = [
   })
 ]
 
-function errorReplacer (key: string, value: any): string {
+function errorReplacer(key: string, value: any): string {
   if (key === 'stack') return '...'
   if (value instanceof Error) return value.message
   return value
 }
 
-function loggerFactory (): winston.Logger {
+function loggerFactory(): winston.Logger {
   return winston.createLogger({
     format: winston.format.combine(...formatters),
     transports

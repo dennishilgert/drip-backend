@@ -1,16 +1,23 @@
+/* eslint-disable no-unused-vars */
 enum SocketEvent {
   CONNECT = 'connect',
+  CONNECT_ERROR = 'connect_error',
   DISCONNECT = 'disconnect',
   IDENTIFY = 'identify',
+  REQUEST = 'request',
+  REQUEST_TIMEOUT = 'request:timeout',
+  REQUEST_RETRACTED = 'request:retracted',
+  RESPONSE = 'response',
   UPDATED_GEOLOCATION = 'updated:geolocation',
   UPDATE_NEARBY_GEOLOCATION = 'update:nearby-geolocation',
   UPDATE_NEARBY_IP = 'update:nearby-ip',
-  SENDING_REQUEST = 'request:sending',
-  SENDING_RESPONSE = 'response:sending',
-  MESSAGE_SENDING = 'data:message-sending',
-  FILE_SENDING = 'data:file-sending'
+  MESSAGE_TRANSMISSION = 'transmission:message',
+  FILE_TRANSMISSION = 'transmission:file'
 }
 
-export {
-  SocketEvent
+enum RequestType {
+  MESSAGE_TRANSMISSION = 'message-transmission',
+  FILE_TRANSMISSION = 'file-transmission'
 }
+
+export { SocketEvent, RequestType }

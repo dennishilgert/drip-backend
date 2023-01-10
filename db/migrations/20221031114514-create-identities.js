@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     return queryInterface.createTable('identities', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
@@ -26,10 +26,10 @@ module.exports = {
       latitude: Sequelize.DataTypes.NUMBER,
       createdAt: Sequelize.DataTypes.DATE,
       updatedAt: Sequelize.DataTypes.DATE
-    });
+    })
   },
 
-  async down (queryInterface, Sequelize) {
-    return queryInterface.dropTable('identities');
+  async down(queryInterface) {
+    return queryInterface.dropTable('identities')
   }
-};
+}

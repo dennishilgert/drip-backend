@@ -34,6 +34,7 @@ server
 
 server.listen(process.env.API_PORT || 8081, () => {
   logger.info(`API-Server is listening on port ${process.env.API_PORT || 8081}`)
+  logger.info(`API-Docs are available under http://localhost:${process.env.API_PORT || 8081}/api-docs`)
 })
 
 io.on(SocketModule.enums.SocketEvent.CONNECT, (socket: Socket) => {

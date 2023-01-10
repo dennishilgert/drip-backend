@@ -6,7 +6,7 @@ import { NotFoundError, ServiceError, ServiceUnavailableError, ValidationError }
 import { isCelebrateError } from 'celebrate'
 import identitiesRouter from './identities'
 import nearbyRouter from './nearby'
-import sendingsRouter from './sendings'
+import transmissionsRouter from './transmissions'
 
 const router = Router()
 
@@ -27,7 +27,7 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 /**
  * Add CORS headers
  */
- const corsOptions: cors.CorsOptions = {
+const corsOptions: cors.CorsOptions = {
   origin: process.env.NODE_ENV === 'development' ? process.env.APP_DEV_URL : process.env.APP_URL,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
@@ -46,7 +46,7 @@ router.use(timeout(asNumber(process.env.API_TIMEOUT)))
  */
 router.use('/identities', identitiesRouter)
 router.use('/nearby', nearbyRouter)
-router.use('/sendings', sendingsRouter)
+router.use('/transmissions', transmissionsRouter)
 
 /**
  * Add handler for requests to inexistent API endpoints
@@ -71,10 +71,12 @@ router.use((err: any, req: Request, res: Response, next: NextFunction) => {
     // The constant keySpecificErrors below contains the root-level keys eg. params, body.
     // Currently, we include all the errors to a single-level array of objects.
     for (const keySpecificErrors of error.details.values()) {
-      errors.push(...keySpecificErrors.details.map((error: any) => ({
-        key: error.context.key,
-        message: error.message.replace(/['"]/g, ''),
-      })))
+      errors.push(
+        ...keySpecificErrors.details.map((error: any) => ({
+          key: error.context.key,
+          message: error.message.replace(/['"]/g, '')
+        }))
+      )
     }
 
     error = new ValidationError('Validation error', 422, errors)
@@ -89,13 +91,8 @@ router.use((err: any, req: Request, res: Response, next: NextFunction) => {
   error.stack = originalStackTrace
   error.message = err.message
 
-  const requestInfo = req
-    ? {
-        url: `/api${req.url}`,
-        method: req.method
-      }
-    : {}
-  
+  const requestInfo = req ? { url: `/api${req.url}`, method: req.method } : {}
+
   // logging only 5xx errors with error level to avoid false positive alerts for errors like 404, 401, etc
   if (err.status >= 500) {
     logger.error('Server API error', Object.assign(requestInfo, { error: err }))

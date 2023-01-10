@@ -1,2 +1,5 @@
 export * from './BadIdentityUpdateDataError'
 export * from './BadIdentityDeletionDataError'
+export * from './IdentityNotFoundError'
+export * from './UnauthorizedIdentityError'
+export * from './IdentityNotConnectedError'

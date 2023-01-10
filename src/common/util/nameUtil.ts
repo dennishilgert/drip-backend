@@ -7,6 +7,6 @@ const customConfig: Config = {
   style: 'capital'
 }
 
-export function uniqueName (): string {
+export function uniqueName(): string {
   return uniqueNamesGenerator(customConfig)
 }

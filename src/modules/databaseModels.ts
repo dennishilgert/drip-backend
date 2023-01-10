@@ -22,7 +22,7 @@ modelFiles.forEach((file: string) => {
   database[model.name] = model
 })
 
-Object.keys(database).forEach(modelName => {
+Object.keys(database).forEach((modelName) => {
   if (database[modelName].associate) {
     database[modelName].associate(database)
   }

@@ -7,9 +7,7 @@ import { Request, Response, NextFunction } from 'express'
  * @param {Function} fn - Function - the function that we want to wrap in the asyncHandlerDecorator
  */
 const asyncHandlerDecorator = (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
-  Promise
-    .resolve(fn(req, res, next))
-    .catch(next)
+  Promise.resolve(fn(req, res, next)).catch(next)
 }
 
 export default asyncHandlerDecorator

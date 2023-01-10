@@ -9,6 +9,7 @@ import NotFoundError from './NotFoundError'
 import PreconditionFailedError from './PreconditionFailedError'
 import ForbiddenError from './ForbiddenError'
 import TooManyRequestsError from './TooManyRequestsError'
+import RequestTimeoutError from './RequestTimeoutError'
 
 export {
   ServiceError,
@@ -21,5 +22,6 @@ export {
   NotFoundError,
   PreconditionFailedError,
   ForbiddenError,
-  TooManyRequestsError
+  TooManyRequestsError,
+  RequestTimeoutError
 }
