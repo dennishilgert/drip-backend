@@ -1,0 +1,17 @@
+# 1. Copy this file to /lib/systemd/system/
+# 2. Reload systemd daemon with "sudo systemctl daemon-reload"
+# 3. Enable auto-start on boot with "sudo systemctl enable drip"
+# 4. Start the service with "sudo systemctl start drip"
+
+[Unit]
+Description=Drip backend server
+After=network-online.target
+
+[Service]
+Type=simple
+Restart=on-failure
+WorkingDirectory=/home/dennis/drip/backend
+ExecStart=/usr/bin/node /home/dennis/drip/backend/build/server.js
+
+[Install]
+WantedBy=multi-user.target

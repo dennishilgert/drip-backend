@@ -30,3 +30,25 @@ npm install
 ```bash
 npm start
 ```
+
+## Hosting in production mode
+
+#### 1. Build the application with
+
+```bash
+npm run build
+```
+
+#### 2. Use Systemd to run the app as a service
+```bash
+cp ./drip.service /lib/systemd/system/drip.service
+```
+```bash
+systemctl daemon-reload
+```
+```bash
+systemctl enable drip
+```
+```bash
+systemctl start drip
+```
