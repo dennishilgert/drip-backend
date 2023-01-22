@@ -1,16 +1,34 @@
 import { DataTypes, Sequelize } from 'sequelize'
 import glob from 'glob'
 import path from 'path'
+import { asNumber, asString } from '../common/helpers/dataHelper'
 
 const database: any = {}
 
-const sequelize: Sequelize = new Sequelize('database', 'username', 'password', {
-  dialect: 'sqlite',
-  storage: process.env.DB_STORAGE || './database.sqlite',
-  logging: (sql: string) => {
-    logger.debug(sql)
+const sequelize: Sequelize = new Sequelize(
+  asString(process.env.DB_DATABASE),
+  asString(process.env.DB_USERNAME),
+  asString(process.env.DB_PASSWORD),
+  {
+    dialect: 'mariadb',
+    host: asString(process.env.DB_HOST),
+    port: asNumber(process.env.DB_PORT),
+    pool: {
+      max: asNumber(process.env.DB_MAX_CONNECTIONS_PER_POOL),
+      min: 2,
+      acquire: 30000,
+      idle: 10000
+    },
+    benchmark: true, // passes the query execution time as second arg to logging method
+    logging: (queryString, execTimeMs) => {
+      if (asNumber(execTimeMs) > asNumber(process.env.DB_SLOW_QUERY_THRESHOLD)) {
+        logger.warn(`Slow sequelize query ${execTimeMs}ms`, {
+          queryString
+        })
+      }
+    }
   }
-})
+)
 
 const modelFiles = glob.sync(path.join(__dirname, '/', '**/*Model.*s'))
 

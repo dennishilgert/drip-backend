@@ -8,14 +8,19 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
+        unique: true,
         allowNull: false
       },
       uuid: {
         type: Sequelize.DataTypes.STRING(36),
+        primaryKey: true,
+        unique: true,
         allowNull: false
       },
       requestUuid: {
         type: Sequelize.DataTypes.STRING(36),
+        primaryKey: true,
+        unique: true,
         allowNull: false
       },
       fromUuid: {

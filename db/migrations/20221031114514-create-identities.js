@@ -8,22 +8,27 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
+        unique: true,
         allowNull: false
       },
       uuid: {
         type: Sequelize.DataTypes.STRING(36),
+        primaryKey: true,
+        unique: true,
         allowNull: false
       },
       name: {
         type: Sequelize.DataTypes.STRING(64),
+        primaryKey: true,
+        unique: true,
         allowNull: false
       },
       ip: {
         type: Sequelize.DataTypes.STRING(64),
         allowNull: false
       },
-      longitude: Sequelize.DataTypes.NUMBER,
-      latitude: Sequelize.DataTypes.NUMBER,
+      longitude: Sequelize.DataTypes.INTEGER,
+      latitude: Sequelize.DataTypes.INTEGER,
       createdAt: Sequelize.DataTypes.DATE,
       updatedAt: Sequelize.DataTypes.DATE
     })

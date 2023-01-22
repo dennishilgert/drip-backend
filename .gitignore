@@ -137,4 +137,6 @@ build
 
 # Uploaded Files
 uploads/*
-database.sqlite
+
+# Database files
+sequelize-meta.json
