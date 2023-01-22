@@ -29,6 +29,7 @@ async function createIdentity(req: Request, res: Response) {
 
 async function lookupIdentity(req: Request, res: Response, next: NextFunction) {
   const name: string = req.params.name
+  console.log(name)
 
   return identityService
     .getIdentityByName(name)
