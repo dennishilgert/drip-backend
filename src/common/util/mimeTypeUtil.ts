@@ -6,6 +6,8 @@ export enum MimeType {
   TIF = 'image/tiff',
   TIFF = 'image/tiff',
   WEBP = 'image/webp',
+  HEIC = 'image/heic',
+  HEIF = 'image/heif',
   GIF = 'image/gif',
   SVG = 'image/svg+xml',
   ICO = 'image/vnd.microsoft.icon',
