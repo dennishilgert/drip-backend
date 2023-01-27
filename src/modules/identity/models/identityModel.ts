@@ -52,8 +52,8 @@ export default function (sequelize: Sequelize) {
         type: DataTypes.STRING(64),
         allowNull: false
       },
-      longitude: DataTypes.NUMBER,
-      latitude: DataTypes.NUMBER,
+      longitude: DataTypes.DECIMAL(12, 9),
+      latitude: DataTypes.DECIMAL(12, 9),
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE
     },

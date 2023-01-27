@@ -27,8 +27,8 @@ module.exports = {
         type: Sequelize.DataTypes.STRING(64),
         allowNull: false
       },
-      longitude: Sequelize.DataTypes.INTEGER,
-      latitude: Sequelize.DataTypes.INTEGER,
+      longitude: Sequelize.DataTypes.DECIMAL(12, 9),
+      latitude: Sequelize.DataTypes.DECIMAL(12, 9),
       createdAt: Sequelize.DataTypes.DATE,
       updatedAt: Sequelize.DataTypes.DATE
     })
