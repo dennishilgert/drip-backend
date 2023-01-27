@@ -1,3 +1,6 @@
+// load process environmenmt setup first
+import './setup/processEnvironmentSetup'
+
 import express, { Application } from 'express'
 import helmet from 'helmet'
 import { errors } from 'celebrate'
@@ -5,8 +8,6 @@ import { Server, Socket } from 'socket.io'
 import { asNumber } from './common/helpers/dataHelper'
 import { container } from './modules/dependencyContainer'
 import * as SocketModule from './modules/socket'
-
-import './setup/processEnvironmentSetup'
 
 import router from './routes'
 
