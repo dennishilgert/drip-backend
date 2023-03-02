@@ -57,6 +57,9 @@ class SocketClient implements ISocketClient {
       this.identityService.updateIdentity(this.identity.uuid, {
         state: IdentityModule.enums.IdentityState.DISCONNECTED
       })
+
+      this.socketService.broadcastEvent(SocketEvent.UPDATE_NEARBY_IP)
+      this.socketService.broadcastEvent(SocketEvent.UPDATE_NEARBY_GEOLOCATION)
       this.initTermination()
     })
   }

@@ -46,9 +46,6 @@ class SocketService implements ISocketService {
     if (!(await this.identityService.deleteIdentity(uuid))) {
       logger.error('Cannot delete identity associated to closed socket')
     }
-
-    this.broadcastEvent(SocketEvent.UPDATE_NEARBY_IP)
-    this.broadcastEvent(SocketEvent.UPDATE_NEARBY_GEOLOCATION)
   }
 
   emitEvent(uuid: string, event: string, data?: string): boolean {
