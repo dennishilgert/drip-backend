@@ -3,7 +3,6 @@ import { ISocketClient, ISocketService } from '../interfaces'
 import * as IdentityModule from '../../identity'
 import { Socket } from 'socket.io'
 import SocketClient from '../objects/socketClient'
-import { SocketEvent } from '../enums'
 import SocketRequest from '../objects/socketRequest'
 
 @injectable()
@@ -22,7 +21,7 @@ class SocketService implements ISocketService {
     const identity: IdentityModule.types.IIdentity | null = await this.identityService.getIdentityByUuid(uuid)
     if (!identity) {
       socket.disconnect(true)
-      logger.debug('Socket-Client identified itself with invalid identity - connection closed')
+      logger.debug('Socket-Client identified with invalid identity - connection closed')
       return
     }
     let pendingRequests: Map<string, SocketRequest> = new Map<string, SocketRequest>()
@@ -32,7 +31,6 @@ class SocketService implements ISocketService {
       existingSocketClient.cancelTermination()
     }
     this.clients.set(uuid, new SocketClient(socket, identity, pendingRequests, this))
-    this.broadcastEvent(SocketEvent.UPDATE_NEARBY_IP, null, [uuid])
   }
 
   getClient(uuid: string): ISocketClient | undefined {

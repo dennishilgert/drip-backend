@@ -20,7 +20,7 @@ function formDataParser(req: Request, res: Response, next: NextFunction): void {
     }
   })
 
-  /* Parsing and uploading the files attached to the request. */
+  // Parsing and uploading the files attached to the request
   busboyParser.on('file', (fieldName: string, fileStream: internal.Readable, fileInfo: busboy.FileInfo) => {
     let fileSize: number = 0
     let exceededSizeLimit: boolean = false
@@ -79,7 +79,7 @@ function formDataParser(req: Request, res: Response, next: NextFunction): void {
     })
   })
 
-  /* Parsing the fields in the request. */
+  // Parsing the fields in the request
   busboyParser.on('field', (name: string, value: string) => {
     req.body[name] = value
   })

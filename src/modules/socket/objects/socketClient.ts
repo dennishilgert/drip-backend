@@ -41,25 +41,28 @@ class SocketClient implements ISocketClient {
     this.listen()
   }
 
-  private listen(): void {
+  private async listen(): Promise<void> {
     logger.debug('Socket-Client registered')
-    this.identityService.updateIdentity(this.identity.uuid, {
+
+    await this.identityService.updateIdentity(this.identity.uuid, {
       state: IdentityModule.enums.IdentityState.CONNECTED
     })
+    this.socketService.broadcastEvent(SocketEvent.UPDATE_NEARBY_IP, null, [this.identity.uuid])
+    this.socketService.broadcastEvent(SocketEvent.UPDATE_NEARBY_GEOLOCATION, null, [this.identity.uuid])
 
     this.socket.on(SocketEvent.UPDATED_GEOLOCATION, () => {
       this.socketService.broadcastEvent(SocketEvent.UPDATE_NEARBY_GEOLOCATION, null, [this.identity.uuid])
     })
 
-    this.socket.on(SocketEvent.DISCONNECT, (reason: DisconnectReason) => {
+    this.socket.on(SocketEvent.DISCONNECT, async (reason: DisconnectReason) => {
       logger.debug('Socket-Client disconnected', reason)
 
-      this.identityService.updateIdentity(this.identity.uuid, {
+      await this.identityService.updateIdentity(this.identity.uuid, {
         state: IdentityModule.enums.IdentityState.DISCONNECTED
       })
-
       this.socketService.broadcastEvent(SocketEvent.UPDATE_NEARBY_IP)
       this.socketService.broadcastEvent(SocketEvent.UPDATE_NEARBY_GEOLOCATION)
+
       this.initTermination()
     })
   }
