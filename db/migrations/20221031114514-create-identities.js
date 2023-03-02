@@ -27,6 +27,10 @@ module.exports = {
         type: Sequelize.DataTypes.STRING(64),
         allowNull: false
       },
+      state: {
+        type: Sequelize.DataTypes.TINYINT,
+        allowNull: false
+      },
       longitude: Sequelize.DataTypes.DECIMAL(12, 9),
       latitude: Sequelize.DataTypes.DECIMAL(12, 9),
       createdAt: Sequelize.DataTypes.DATE,

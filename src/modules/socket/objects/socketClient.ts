@@ -4,6 +4,7 @@ import { IIdentity } from '../../../modules/identity/types'
 import { SocketEvent } from '../enums'
 import { ISocketClient, ISocketService } from '../interfaces'
 import * as TransmissionsModule from '../../transmissions'
+import * as IdentityModule from '../../identity'
 import { container } from '../../../modules/dependencyContainer'
 import SocketRequest from './socketRequest'
 import { ISocketRequest, ISocketResponse, ITransformedSocketRequest } from '../types'
@@ -17,6 +18,10 @@ class SocketClient implements ISocketClient {
   private readonly socketService: ISocketService
   private readonly transmissionService: TransmissionsModule.interfaces.ITransmissionService = container.get(
     TransmissionsModule.DI_TYPES.TransmissionService
+  )
+
+  private readonly identityService: IdentityModule.interfaces.IIdentityService = container.get(
+    IdentityModule.DI_TYPES.IdentityService
   )
 
   private pendingRequests: Map<string, SocketRequest>
@@ -38,6 +43,9 @@ class SocketClient implements ISocketClient {
 
   private listen(): void {
     logger.debug('Socket-Client registered')
+    this.identityService.updateIdentity(this.identity.uuid, {
+      state: IdentityModule.enums.IdentityState.CONNECTED
+    })
 
     this.socket.on(SocketEvent.UPDATED_GEOLOCATION, () => {
       this.socketService.broadcastEvent(SocketEvent.UPDATE_NEARBY_GEOLOCATION, null, [this.identity.uuid])
@@ -46,6 +54,9 @@ class SocketClient implements ISocketClient {
     this.socket.on(SocketEvent.DISCONNECT, (reason: DisconnectReason) => {
       logger.debug('Socket-Client disconnected', reason)
 
+      this.identityService.updateIdentity(this.identity.uuid, {
+        state: IdentityModule.enums.IdentityState.DISCONNECTED
+      })
       this.initTermination()
     })
   }

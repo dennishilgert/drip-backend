@@ -9,6 +9,7 @@ import {
   Sequelize
 } from 'sequelize'
 import { uniqueId } from '../../../common/helpers/uuidHelper'
+import { IdentityState } from '../enums'
 import { IIdentity } from '../types'
 
 class IdentityModel
@@ -19,6 +20,7 @@ class IdentityModel
   declare uuid: string
   declare name: string
   declare ip: string
+  declare state: number
   declare longitude: CreationOptional<number>
   declare latitude: CreationOptional<number>
 
@@ -51,6 +53,11 @@ export default function (sequelize: Sequelize) {
       ip: {
         type: DataTypes.STRING(64),
         allowNull: false
+      },
+      state: {
+        type: DataTypes.TINYINT,
+        allowNull: false,
+        defaultValue: IdentityState.CREATED
       },
       longitude: DataTypes.DECIMAL(12, 9),
       latitude: DataTypes.DECIMAL(12, 9),

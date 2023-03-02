@@ -44,7 +44,7 @@ io.on(SocketModule.enums.SocketEvent.CONNECT, (socket: Socket) => {
   const timeout: NodeJS.Timeout = setTimeout(() => {
     socket.disconnect(true)
     logger.debug('Socket-Client has not identified itself before timeout - connection closed')
-  }, 1000)
+  }, 3000)
 
   socket.on(SocketModule.enums.SocketEvent.IDENTIFY, (uuid: string) => {
     clearTimeout(timeout)

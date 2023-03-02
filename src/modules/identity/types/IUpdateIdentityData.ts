@@ -1,4 +1,5 @@
 export interface IUpdateIdentityData {
-  longitude: number
-  latitude: number
+  state?: number
+  longitude?: number
+  latitude?: number
 }
