@@ -57,8 +57,8 @@ class IdentityRepo implements IIdentityRepo {
     return database.Identity.unscoped().findAll(parameters)
   }
 
-  async getByIp(ip: string): Promise<IIdentity[]> {
-    return this.getManyByCriteria({ ip })
+  async getByIp(ip: string, scopes?: string[]): Promise<IIdentity[]> {
+    return this.getManyByCriteria({ ip }, scopes)
   }
 
   async getWithLocation(scopes?: string[]): Promise<IIdentity[]> {
