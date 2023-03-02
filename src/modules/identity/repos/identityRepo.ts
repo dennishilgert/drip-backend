@@ -61,12 +61,15 @@ class IdentityRepo implements IIdentityRepo {
     return this.getManyByCriteria({ ip })
   }
 
-  async getWithLocation(): Promise<IIdentity[]> {
-    return this.getManyByCriteria({
-      longitude: {
-        [Op.ne]: null
-      }
-    })
+  async getWithLocation(scopes?: string[]): Promise<IIdentity[]> {
+    return this.getManyByCriteria(
+      {
+        longitude: {
+          [Op.ne]: null
+        }
+      },
+      scopes
+    )
   }
 
   /**

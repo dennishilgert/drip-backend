@@ -69,7 +69,14 @@ export default function (sequelize: Sequelize) {
       modelName: 'Identity',
       tableName: 'identities',
       timestamps: true,
-      freezeTableName: true
+      freezeTableName: true,
+      scopes: {
+        connected: {
+          where: {
+            state: IdentityState.CONNECTED
+          }
+        }
+      }
     }
   )
 

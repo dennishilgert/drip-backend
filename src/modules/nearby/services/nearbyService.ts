@@ -22,7 +22,7 @@ class NearbyService implements INearbyService {
    * @returns An array of identities that are on the same network as the user
    */
   async getNearbyIp(excludeUuid: string, ip: string): Promise<IdentityModule.types.ITransformedIdentity[]> {
-    const nearbyIdentities: IdentityModule.types.IIdentity[] = await this.identityRepo.getByIp(ip)
+    const nearbyIdentities: IdentityModule.types.IIdentity[] = await this.identityRepo.getByIp(ip, ['connected'])
     const transformedNearbyIdentities: IdentityModule.types.ITransformedIdentity[] = []
 
     // only return identities which have the same public ip
@@ -51,10 +51,10 @@ class NearbyService implements INearbyService {
     longitude: number,
     latitude: number
   ): Promise<IdentityModule.types.ITransformedIdentity[]> {
-    const locationIdentities: IdentityModule.types.IIdentity[] = await this.identityRepo.getWithLocation()
+    const locationIdentities: IdentityModule.types.IIdentity[] = await this.identityRepo.getWithLocation(['connected'])
     const transformedLocationIdentities: IdentityModule.types.ITransformedIdentity[] = []
 
-    // the iteration of all table entries may be not the most efficient
+    // the iteration of all table entries may be not the most efficient way
     // but in this case it is acceptable
     locationIdentities.forEach((identity: IdentityModule.types.IIdentity) => {
       if (identity.uuid === excludeUuid) return
