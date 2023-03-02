@@ -32,7 +32,7 @@ module.exports = {
         allowNull: false
       },
       message: {
-        type: Sequelize.DataTypes.TEXT(1024),
+        type: Sequelize.DataTypes.TEXT,
         allowNull: false
       },
       createdAt: Sequelize.DataTypes.DATE,
