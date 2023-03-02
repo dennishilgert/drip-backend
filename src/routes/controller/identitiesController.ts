@@ -9,7 +9,9 @@ const identityService: IdentityModule.interfaces.IIdentityService = container.ge
 )
 
 async function createIdentity(req: Request, res: Response) {
-  const ip: string = asString(req.headers['x-forwarded-for'] || req.socket.remoteAddress)
+  let ip: string = asString(req.headers['x-forwarded-for'] || req.socket.remoteAddress)
+  if (ip.includes(',')) ip = ip.split(',')[0].replaceAll(' ', '')
+
   const creationData: IdentityModule.types.ICreateIdentityData = {
     ip
   }
