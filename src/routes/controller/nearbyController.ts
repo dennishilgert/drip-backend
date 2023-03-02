@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { BadRequestError, InternalError } from '../../errors'
-import { asNumber, asString } from '../../common/helpers/dataHelper'
+import { asNumber } from '../../common/helpers/dataHelper'
 import { container } from '../../modules/dependencyContainer'
 import * as IdentityModule from '../../modules/identity'
 import * as NearbyModule from '../../modules/nearby'
@@ -8,8 +8,8 @@ import * as NearbyModule from '../../modules/nearby'
 const nearbyService: NearbyModule.interfaces.INearbyService = container.get(NearbyModule.DI_TYPES.NearbyService)
 
 async function getNearbyIp(req: Request, res: Response) {
-  const ip: string = asString(req.headers['x-forwarded-for'] || req.socket.remoteAddress)
   const fromIdentity: IdentityModule.types.IIdentity = req.fromIdentity as IdentityModule.types.IIdentity
+  const ip: string = fromIdentity.ip
 
   return nearbyService
     .getNearbyIp(fromIdentity.uuid, ip)
