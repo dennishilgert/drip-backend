@@ -48,7 +48,7 @@ export default function (sequelize: Sequelize) {
         allowNull: false
       },
       message: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
       },
       createdAt: DataTypes.DATE,

@@ -66,7 +66,7 @@ router.post(
       .unknown(true),
     [Segments.BODY]: Joi.object().keys({
       toName: Joi.string().required(),
-      message: Joi.string().min(1).max(256).required()
+      message: Joi.string().min(1).max(1024).required()
     })
   }),
   isAuthenticated,
