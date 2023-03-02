@@ -41,7 +41,13 @@ server.listen(process.env.API_PORT || 8081, () => {
 io.on(SocketModule.enums.SocketEvent.CONNECT, (socket: Socket) => {
   logger.debug('Socket-Client connected')
 
+  const timeout: NodeJS.Timeout = setTimeout(() => {
+    socket.disconnect(true)
+    logger.debug('Socket-Client has not identified itself before timeout - connection closed')
+  }, 1000)
+
   socket.on(SocketModule.enums.SocketEvent.IDENTIFY, (uuid: string) => {
+    clearTimeout(timeout)
     socketService.registerClient(socket, uuid)
   })
 })

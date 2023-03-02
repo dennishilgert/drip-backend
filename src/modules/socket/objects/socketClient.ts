@@ -13,16 +13,24 @@ import { InternalError } from '../../../errors'
 class SocketClient implements ISocketClient {
   private readonly socket: Socket
   private readonly identity: IIdentity
+  private timeout: NodeJS.Timeout | null
   private readonly socketService: ISocketService
   private readonly transmissionService: TransmissionsModule.interfaces.ITransmissionService = container.get(
     TransmissionsModule.DI_TYPES.TransmissionService
   )
 
-  private pendingRequests: Map<string, SocketRequest> = new Map<string, SocketRequest>()
+  private pendingRequests: Map<string, SocketRequest>
 
-  constructor(socket: Socket, identity: IIdentity, socketService: ISocketService) {
+  constructor(
+    socket: Socket,
+    identity: IIdentity,
+    pendingRequests: Map<string, SocketRequest>,
+    socketService: ISocketService
+  ) {
     this.socket = socket
     this.identity = identity
+    this.pendingRequests = pendingRequests
+    this.timeout = null
     this.socketService = socketService
 
     this.listen()
@@ -38,10 +46,23 @@ class SocketClient implements ISocketClient {
     this.socket.on(SocketEvent.DISCONNECT, (reason: DisconnectReason) => {
       logger.debug('Socket-Client disconnected', reason)
 
+      this.initTermination()
+    })
+  }
+
+  initTermination(): void {
+    // Destroy the identity after three hours
+    this.timeout = setTimeout(() => {
       this.transmissionService.cleanMessageTransmissions(this.identity.uuid)
       this.transmissionService.cleanFileTransmissions(this.identity.uuid)
       this.socketService.destroyClient(this.identity.uuid)
-    })
+    }, 1000 * 60 * 60 * 3)
+  }
+
+  cancelTermination(): void {
+    if (!this.timeout) return
+    clearTimeout(this.timeout)
+    this.timeout = null
   }
 
   async openRequest(request: ISocketRequest): Promise<ISocketResponse> {
@@ -74,6 +95,10 @@ class SocketClient implements ISocketClient {
 
   removeListener(event: string, listener: (...args: any[]) => void): void {
     this.socket.removeListener(event, listener)
+  }
+
+  getPendingRequests(): Map<string, SocketRequest> {
+    return this.pendingRequests
   }
 }
 
